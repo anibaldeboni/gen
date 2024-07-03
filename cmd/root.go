@@ -17,6 +17,14 @@ var rootCmd = &cobra.Command{
 
 var bold = lipgloss.NewStyle().Bold(true).Render
 
+func printValid(code string) {
+	fmt.Println("🟢", bold(code), "is valid")
+}
+
+func printInvalid(code string, err error) {
+	fmt.Println("🔴", fmt.Errorf("%s %w", bold(code), err))
+}
+
 func sendToClipboard(code string) {
 	clipboard.Write(clipboard.FmtText, []byte(code))
 	fmt.Println("🔔", bold(code), "copied to clipboard")

@@ -1,3 +1,5 @@
+github.com/0x6flab/namegenerator v1.4.0 h1:QnkI813SZsI/hYnKD9pg3mkIlcYzCx0N4hnzb0YYME4=
+github.com/0x6flab/namegenerator v1.4.0/go.mod h1:2sQzXuS6dX/KEwWtB6GJU729O3m4gBdD5oAU8hd0SyY=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1 h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1/go.mod h1:uYgXzlJ7ZpABp8OJ+exZzJJhRNQ2ASbcXHWsFqH8hp8=

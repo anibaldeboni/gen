@@ -22,6 +22,18 @@ $ gen cpf
 $ gen cpf validate 06248751307
 ```
 
+- Name generator
+
+```sh
+$ gen name
+```
+
+- Email generator
+
+```sh
+$ gen email
+```
+
 # Build
 
 ```sh

@@ -3,6 +3,7 @@ module github.com/anibaldeboni/gen
 go 1.22.1
 
 require (
+	github.com/0x6flab/namegenerator v1.4.0
 	github.com/charmbracelet/lipgloss v0.11.0
 	github.com/google/uuid v1.6.0
 	github.com/mvrilo/go-cpf v0.0.0-20150109121854-4113d38c8d21
