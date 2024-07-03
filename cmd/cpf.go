@@ -9,6 +9,7 @@ import (
 
 func init() {
 	rootCmd.AddCommand(cpfCmd)
+	cpfCmd.AddCommand(cpfValidateCmd)
 }
 
 var cpfCmd = &cobra.Command{

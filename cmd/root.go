@@ -24,10 +24,20 @@ func init() {
 var bold = lipgloss.NewStyle().Bold(true).Render
 
 func printValid(code string) {
+	if printRaw {
+		fmt.Println(true)
+		return
+	}
+
 	fmt.Println("🟢", bold(code), "is valid")
 }
 
 func printInvalid(code string, err error) {
+	if printRaw {
+		fmt.Println(false)
+		return
+	}
+
 	fmt.Println("🔴", fmt.Errorf("%s %w", bold(code), err))
 }
 
