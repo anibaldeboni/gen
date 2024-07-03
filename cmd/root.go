@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
@@ -23,31 +24,39 @@ func init() {
 
 var bold = lipgloss.NewStyle().Bold(true).Render
 
-func printValid(code string) {
+func printValid(code string, opts ...string) {
 	if printRaw {
 		fmt.Println(true)
 		return
 	}
 
-	fmt.Println("🟢", bold(code), "is valid")
+	msg := []string{"🟢", bold(code)}
+	msg = append(msg, opts...)
+	msg = append(msg, "is valid")
+
+	fmt.Println(strings.Join(msg, " "))
 }
 
-func printInvalid(code string, err error) {
+func printInvalid(code string, err error, opts ...string) {
 	if printRaw {
 		fmt.Println(false)
 		return
 	}
 
-	fmt.Println("🔴", fmt.Errorf("%s %w", bold(code), err))
+	msg := []string{"🔴", bold(code)}
+	msg = append(msg, opts...)
+	msg = append(msg, err.Error())
+
+	fmt.Println(strings.Join(msg, " "))
 }
 
-func sendToClipboard(code string) {
+func sendToClipboard(code string, opts ...string) {
 	if printRaw {
 		fmt.Println(code)
 		return
 	}
 	clipboard.Write(clipboard.FmtText, []byte(code))
-	fmt.Println("🔔", bold(code), "copied to clipboard")
+	fmt.Println("🔔", bold(code), strings.Join(opts, " "), "copied to clipboard")
 }
 
 func Execute() {
