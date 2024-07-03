@@ -2,11 +2,13 @@ package cmd
 
 import (
 	"errors"
+	"slices"
 	"strings"
 
 	"github.com/nsuprun/ccgen"
 	"github.com/spf13/cobra"
 	"github.com/thediveo/enumflag/v2"
+	"golang.org/x/exp/maps"
 )
 
 var (
@@ -27,17 +29,17 @@ func init() {
 }
 
 var ccTypes = map[ccgen.CardType][]string{
-	ccgen.AmericanExpress: {"amex", "AmericanExpress"},
-	ccgen.DinersClub:      {"diners", "DinersClub"},
-	ccgen.DinersClubUS:    {"diners-us", "DinersClubUS"},
-	ccgen.Discover:        {"discover", "Discover"},
-	ccgen.JCB:             {"jcb", "JCB"},
-	ccgen.Maestro:         {"maestro", "Maestro"},
-	ccgen.Mastercard:      {"mastercard", "Mastercard"},
-	ccgen.Solo:            {"solo", "Solo"},
-	ccgen.Unionpay:        {"unionpay", "UnionPay"},
-	ccgen.Visa:            {"visa", "Visa"},
-	ccgen.Mir:             {"mir", "Mir"},
+	ccgen.AmericanExpress: {"amex"},
+	ccgen.DinersClub:      {"diners"},
+	ccgen.DinersClubUS:    {"diners-us"},
+	ccgen.Discover:        {"discover"},
+	ccgen.JCB:             {"jcb"},
+	ccgen.Maestro:         {"maestro"},
+	ccgen.Mastercard:      {"mastercard"},
+	ccgen.Solo:            {"solo"},
+	ccgen.Unionpay:        {"unionpay"},
+	ccgen.Visa:            {"visa"},
+	ccgen.Mir:             {"mir"},
 }
 
 var ccGenerateFuncs = map[ccgen.CardType]func() string{
@@ -56,10 +58,11 @@ var ccGenerateFuncs = map[ccgen.CardType]func() string{
 
 func listCCTypes() string {
 	var list []string
-	for _, v := range ccTypes {
-		list = append(list, v[0])
+	for _, v := range maps.Values(ccTypes) {
+		list = append(list, v...)
 	}
-	return strings.Join(list, ", ")
+	slices.Sort(list)
+	return strings.Join(list, "\n")
 }
 
 var ccCmd = &cobra.Command{
@@ -76,6 +79,7 @@ var validateCCCmd = &cobra.Command{
 	Use:   "validate [number]",
 	Short: "Validate a credit card number",
 	Long:  `Validate a credit card number`,
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		code := args[0]
 		if ccgen.Visa.ValidNumber(code) {

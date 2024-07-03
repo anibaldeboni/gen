@@ -30,9 +30,7 @@ func printValid(code string, opts ...string) {
 		return
 	}
 
-	msg := []string{"🟢", bold(code)}
-	msg = append(msg, opts...)
-	msg = append(msg, "is valid")
+	msg := append([]string{"🟢", bold(code)}, append(opts, "is valid")...)
 
 	fmt.Println(strings.Join(msg, " "))
 }
@@ -43,10 +41,7 @@ func printInvalid(code string, err error, opts ...string) {
 		return
 	}
 
-	msg := []string{"🔴", bold(code)}
-	msg = append(msg, opts...)
-	msg = append(msg, err.Error())
-
+	msg := append([]string{"🔴", bold(code)}, append(opts, err.Error())...)
 	fmt.Println(strings.Join(msg, " "))
 }
 
@@ -56,7 +51,8 @@ func sendToClipboard(code string, opts ...string) {
 		return
 	}
 	clipboard.Write(clipboard.FmtText, []byte(code))
-	fmt.Println("🔔", bold(code), strings.Join(opts, " "), "copied to clipboard")
+	msg := append([]string{"🔔", bold(code)}, append(opts, "copied to clipboard")...)
+	fmt.Println(strings.Join(msg, " "))
 }
 
 func Execute() {
