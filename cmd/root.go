@@ -15,6 +15,12 @@ var rootCmd = &cobra.Command{
 	Long:  `A fast and simple random data generator for common use cases built in Go.`,
 }
 
+var printRaw bool
+
+func init() {
+	rootCmd.PersistentFlags().BoolVarP(&printRaw, "raw", "r", false, "print the raw code instead of copying to clipboard")
+}
+
 var bold = lipgloss.NewStyle().Bold(true).Render
 
 func printValid(code string) {
@@ -26,6 +32,10 @@ func printInvalid(code string, err error) {
 }
 
 func sendToClipboard(code string) {
+	if printRaw {
+		fmt.Println(code)
+		return
+	}
 	clipboard.Write(clipboard.FmtText, []byte(code))
 	fmt.Println("🔔", bold(code), "copied to clipboard")
 }
