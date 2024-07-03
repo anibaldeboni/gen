@@ -1,6 +1,6 @@
 # gen
 
-A simple tool for generate common random data
+A simple tool for generating common random data
 
 # Available commands
 
