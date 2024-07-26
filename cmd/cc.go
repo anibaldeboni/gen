@@ -57,9 +57,10 @@ func ccCmd() *cobra.Command {
 		Use:   "cc",
 		Short: "Generate a random credit card number",
 		Long:  `Generate a random credit card number`,
+		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			code := ccGenerateFuncs[ccType]()
-			sendToClipboard(code, ccTypes[ccType][0])
+			cmd.Println(Success(code))
 		},
 	}
 
@@ -71,22 +72,22 @@ func ccCmd() *cobra.Command {
 	)
 	cmd.Flags().Lookup("type").NoOptDefVal = "visa"
 
-	cmd.AddCommand(validateCCCmd)
+	validator := &cobra.Command{
+		Use:   "validate [number]",
+		Short: "Validate a credit card number",
+		Long:  `Validate a credit card number`,
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			code := args[0]
+			if ccgen.Visa.ValidNumber(code) {
+				cmd.Println(Valid(code))
+			} else {
+				cmd.PrintErrln(Invalid(code, errors.New("invalid credit card number")))
+			}
+		},
+	}
+
+	cmd.AddCommand(validator)
 
 	return cmd
-}
-
-var validateCCCmd = &cobra.Command{
-	Use:   "validate [number]",
-	Short: "Validate a credit card number",
-	Long:  `Validate a credit card number`,
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		code := args[0]
-		if ccgen.Visa.ValidNumber(code) {
-			printValid(code)
-		} else {
-			printInvalid(code, errors.New("invalid number"))
-		}
-	},
 }

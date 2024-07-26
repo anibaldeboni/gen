@@ -10,12 +10,13 @@ func nameCmd() *cobra.Command {
 		Use:   "name",
 		Short: "Generate a random name",
 		Long:  `Generate a random person name`,
+		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			name := namegenerator.NewGenerator().
+			ng := namegenerator.NewGenerator().
 				WithGender(defineGenderFlags(cmd))
 
-			code := name.Generate()
-			sendToClipboard(code)
+			name := ng.Generate()
+			cmd.Println(Success(name))
 		},
 	}
 

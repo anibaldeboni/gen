@@ -16,35 +16,41 @@ var (
 	bold     = lipgloss.NewStyle().Bold(true).Render
 )
 
-func printValid(code string, opts ...string) {
+func Valid(code string, opts ...string) string {
 	if printRaw {
-		fmt.Println(true)
-		return
+		return "true"
 	}
+	msg := strings.Builder{}
+	msg.WriteString("🟢 " + bold(code))
+	msg.WriteString(strings.Join(opts, " "))
+	msg.WriteString("is valid")
 
-	msg := append([]string{"🟢", bold(code)}, append(opts, "is valid")...)
-
-	fmt.Println(strings.Join(msg, " "))
+	return msg.String()
 }
 
-func printInvalid(code string, err error, opts ...string) {
+func Invalid(code string, err error, opts ...string) string {
 	if printRaw {
-		fmt.Println(false)
-		return
+		return "false"
 	}
+	msg := strings.Builder{}
+	msg.WriteString("🔴 " + bold(code))
+	msg.WriteString(strings.Join(opts, " "))
+	msg.WriteString(" " + err.Error())
 
-	msg := append([]string{"🔴", bold(code)}, append(opts, err.Error())...)
-	fmt.Println(strings.Join(msg, " "))
+	return msg.String()
 }
 
-func sendToClipboard(code string, opts ...string) {
+func Success(code string, opts ...string) string {
 	if printRaw {
-		fmt.Println(code)
-		return
+		return code
 	}
 	clipboard.Write(clipboard.FmtText, []byte(code))
-	msg := append([]string{"🔔", bold(code)}, append(opts, "copied to clipboard")...)
-	fmt.Println(strings.Join(msg, " "))
+	msg := strings.Builder{}
+	msg.WriteString("🔔 " + bold(code) + " ")
+	msg.WriteString(strings.Join(opts, " "))
+	msg.WriteString("copied to clipboard")
+
+	return msg.String()
 }
 
 func Execute() {
@@ -52,10 +58,12 @@ func Execute() {
 		Use:           "gen",
 		Short:         "Gen is a tool to generate random data.",
 		Long:          `A fast and simple random data generator for common use cases built in Go.`,
+		Example:       "gen name",
 		Version:       Version,
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}
+
 	rootCmd.PersistentFlags().BoolVarP(&printRaw, "raw", "r", false, "print the raw code instead of copying to clipboard")
 
 	rootCmd.AddCommand(ccCmd())
