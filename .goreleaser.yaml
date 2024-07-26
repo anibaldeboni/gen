@@ -12,7 +12,7 @@ builds:
       - amd64
     main: ./main.go
     ldflags:
-      - -X github.com/anibaldeboni/rx/cmd.Version=v{{.Version}}
+      - -X github.com/anibaldeboni/gen/cmd.Version=v{{.Version}}
 
   - id: darwin
     goos:
@@ -22,17 +22,16 @@ builds:
       - arm64
     main: ./main.go
     ldflags:
-      - -X github.com/anibaldeboni/rx/cmd.Version=v{{.Version}}
+      - -X github.com/anibaldeboni/gen/cmd.Version=v{{.Version}}
 
   - id: windows
-    binary: rx
     goos:
       - windows
     goarch:
       - amd64
     main: ./main.go
     ldflags:
-      - -X github.com/anibaldeboni/rx/cmd.Version=v{{.Version}}
+      - -X github.com/anibaldeboni/gen/cmd.Version=v{{.Version}}
 
 archives:
   - id: darwin
