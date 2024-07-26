@@ -10,10 +10,15 @@ import (
 	"golang.design/x/clipboard"
 )
 
+var Version = "dev"
+
 var rootCmd = &cobra.Command{
-	Use:   "gen",
-	Short: "Gen is a tool to generate random data.",
-	Long:  `A fast and simple random data generator for common use cases built in Go.`,
+	Use:           "gen",
+	Short:         "Gen is a tool to generate random data.",
+	Long:          `A fast and simple random data generator for common use cases built in Go.`,
+	Version:       Version,
+	SilenceUsage:  true,
+	SilenceErrors: true,
 }
 
 var printRaw bool

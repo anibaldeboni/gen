@@ -1,0 +1,63 @@
+# .goreleaser.yaml
+version: 2
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: linux
+    goos:
+      - linux
+    goarch:
+      - amd64
+    main: ./main.go
+    ldflags:
+      - -X github.com/anibaldeboni/rx/cmd.Version=v{{.Version}}
+
+  - id: darwin
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: ./main.go
+    ldflags:
+      - -X github.com/anibaldeboni/rx/cmd.Version=v{{.Version}}
+
+  - id: windows
+    binary: rx
+    goos:
+      - windows
+    goarch:
+      - amd64
+    main: ./main.go
+    ldflags:
+      - -X github.com/anibaldeboni/rx/cmd.Version=v{{.Version}}
+
+archives:
+  - id: darwin
+    name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+    builds:
+      - darwin
+    wrap_in_directory: false
+    format_overrides:
+      - goos: darwin
+        format: zip
+
+  - id: linux
+    name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+    builds:
+      - linux
+    wrap_in_directory: false
+
+  - id: windows
+    name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+    builds:
+      - windows
+    wrap_in_directory: false
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: "checksums.txt"
