@@ -7,19 +7,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func init() {
-	rootCmd.AddCommand(cpfCmd)
-	cpfCmd.AddCommand(cpfValidateCmd)
-}
+func cpfCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "cpf",
+		Short: "Generate a valid CPF",
+		Long:  `Generate a valid CPF (Brazilian Social Security Number)`,
+		Run: func(cmd *cobra.Command, args []string) {
+			code := cpf.Generate()
+			sendToClipboard(code)
+		},
+	}
+	cmd.AddCommand(cpfValidateCmd)
 
-var cpfCmd = &cobra.Command{
-	Use:   "cpf",
-	Short: "Generate a valid CPF",
-	Long:  `Generate a valid CPF (Brazilian Social Security Number)`,
-	Run: func(cmd *cobra.Command, args []string) {
-		code := cpf.Generate()
-		sendToClipboard(code)
-	},
+	return cmd
 }
 
 var cpfValidateCmd = &cobra.Command{

@@ -15,19 +15,6 @@ var (
 	ccType ccgen.CardType = ccgen.Visa
 )
 
-func init() {
-	rootCmd.AddCommand(ccCmd)
-	ccCmd.Flags().VarP(
-		enumflag.New(&ccType, "type", ccTypes, enumflag.EnumCaseInsensitive),
-		"type",
-		"t",
-		"set card type: "+listCCTypes(),
-	)
-	ccCmd.Flags().Lookup("type").NoOptDefVal = "visa"
-
-	ccCmd.AddCommand(validateCCCmd)
-}
-
 var ccTypes = map[ccgen.CardType][]string{
 	ccgen.AmericanExpress: {"amex"},
 	ccgen.DinersClub:      {"diners"},
@@ -65,14 +52,28 @@ func listCCTypes() string {
 	return strings.Join(list, "\n")
 }
 
-var ccCmd = &cobra.Command{
-	Use:   "cc",
-	Short: "Generate a random credit card number",
-	Long:  `Generate a random credit card number`,
-	Run: func(cmd *cobra.Command, args []string) {
-		code := ccGenerateFuncs[ccType]()
-		sendToClipboard(code, ccTypes[ccType][0])
-	},
+func ccCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "cc",
+		Short: "Generate a random credit card number",
+		Long:  `Generate a random credit card number`,
+		Run: func(cmd *cobra.Command, args []string) {
+			code := ccGenerateFuncs[ccType]()
+			sendToClipboard(code, ccTypes[ccType][0])
+		},
+	}
+
+	cmd.Flags().VarP(
+		enumflag.New(&ccType, "type", ccTypes, enumflag.EnumCaseInsensitive),
+		"type",
+		"t",
+		"set card type: "+listCCTypes(),
+	)
+	cmd.Flags().Lookup("type").NoOptDefVal = "visa"
+
+	cmd.AddCommand(validateCCCmd)
+
+	return cmd
 }
 
 var validateCCCmd = &cobra.Command{

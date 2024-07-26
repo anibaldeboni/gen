@@ -10,24 +10,11 @@ import (
 	"golang.design/x/clipboard"
 )
 
-var Version = "dev"
-
-var rootCmd = &cobra.Command{
-	Use:           "gen",
-	Short:         "Gen is a tool to generate random data.",
-	Long:          `A fast and simple random data generator for common use cases built in Go.`,
-	Version:       Version,
-	SilenceUsage:  true,
-	SilenceErrors: true,
-}
-
-var printRaw bool
-
-func init() {
-	rootCmd.PersistentFlags().BoolVarP(&printRaw, "raw", "r", false, "print the raw code instead of copying to clipboard")
-}
-
-var bold = lipgloss.NewStyle().Bold(true).Render
+var (
+	Version  = "dev"
+	printRaw bool
+	bold     = lipgloss.NewStyle().Bold(true).Render
+)
 
 func printValid(code string, opts ...string) {
 	if printRaw {
@@ -61,6 +48,22 @@ func sendToClipboard(code string, opts ...string) {
 }
 
 func Execute() {
+	rootCmd := &cobra.Command{
+		Use:           "gen",
+		Short:         "Gen is a tool to generate random data.",
+		Long:          `A fast and simple random data generator for common use cases built in Go.`,
+		Version:       Version,
+		SilenceUsage:  true,
+		SilenceErrors: true,
+	}
+	rootCmd.PersistentFlags().BoolVarP(&printRaw, "raw", "r", false, "print the raw code instead of copying to clipboard")
+
+	rootCmd.AddCommand(ccCmd())
+	rootCmd.AddCommand(cpfCmd())
+	rootCmd.AddCommand(emailCmd())
+	rootCmd.AddCommand(nameCmd())
+	rootCmd.AddCommand(uuidCmd())
+
 	err := clipboard.Init()
 	if err != nil {
 		panic(err)
