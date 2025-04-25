@@ -20,6 +20,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/nsuprun/ccgen v0.0.0-20220426203743-028ccdaf79c9
+	github.com/potatowski/brazilcode/v2 v2.1.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/thediveo/enumflag/v2 v2.0.5

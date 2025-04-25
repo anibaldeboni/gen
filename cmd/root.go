@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
@@ -23,7 +21,7 @@ func Valid(code string, opts ...string) string {
 	msg := strings.Builder{}
 	msg.WriteString("🟢 " + bold(code))
 	msg.WriteString(strings.Join(opts, " "))
-	msg.WriteString("is valid")
+	msg.WriteString(" is valid")
 
 	return msg.String()
 }
@@ -53,7 +51,7 @@ func Success(code string, opts ...string) string {
 	return msg.String()
 }
 
-func Execute() {
+func RootCmd() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:           "gen",
 		Short:         "Gen is a tool to generate random data.",
@@ -71,14 +69,22 @@ func Execute() {
 	rootCmd.AddCommand(emailCmd())
 	rootCmd.AddCommand(nameCmd())
 	rootCmd.AddCommand(uuidCmd())
+	rootCmd.AddCommand(cnpjCmd())
+	rootCmd.AddCommand(voterRegistrationCmd())
+	rootCmd.AddCommand(cnhCmd())
+	rootCmd.AddCommand(renavamCmd())
 
 	err := clipboard.Init()
 	if err != nil {
 		panic(err)
 	}
 
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+	return rootCmd
+}
+
+func isUniformDigit(s string) bool {
+	if len(s) == 0 {
+		return false
 	}
+	return strings.Count(s, string(s[0])) == len(s) && s[0] >= '0' && s[0] <= '9'
 }

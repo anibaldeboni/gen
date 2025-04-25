@@ -22,3 +22,9 @@ install_deps:
 
 clean:
 	@rm -rf $(BUILD_PATH)
+
+lint: ##@dev Run lint (download from https://golangci-lint.run/usage/install/#local-installation)
+	@golangci-lint run -v
+
+test:
+	go test -cover -v ./...
