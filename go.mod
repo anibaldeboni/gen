@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/lipgloss v0.12.1
 	github.com/google/uuid v1.6.0
 	github.com/mvrilo/go-cpf v0.0.0-20150109121854-4113d38c8d21
-	github.com/spf13/cobra v1.8.1
+	github.com/spf13/cobra v1.9.1
 	golang.design/x/clipboard v0.7.0
 )
 
@@ -22,7 +22,7 @@ require (
 	github.com/nsuprun/ccgen v0.0.0-20220426203743-028ccdaf79c9
 	github.com/potatowski/brazilcode/v2 v2.1.0
 	github.com/rivo/uniseg v0.4.7 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/thediveo/enumflag/v2 v2.0.5
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	golang.org/x/exp/shiny v0.0.0-20240613232115-7f521ea00fb8 // indirect
