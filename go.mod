@@ -1,6 +1,6 @@
 module github.com/anibaldeboni/gen
 
-go 1.22.1
+go 1.24
 
 require (
 	github.com/0x6flab/namegenerator v1.4.0
@@ -8,7 +8,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/mvrilo/go-cpf v0.0.0-20150109121854-4113d38c8d21
 	github.com/spf13/cobra v1.8.1
-	golang.design/x/clipboard v0.7.0
+	golang.design/x/clipboard v0.7.1
 )
 
 require (
@@ -25,8 +25,8 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/thediveo/enumflag/v2 v2.0.5
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
-	golang.org/x/exp/shiny v0.0.0-20240613232115-7f521ea00fb8 // indirect
-	golang.org/x/image v0.18.0 // indirect
-	golang.org/x/mobile v0.0.0-20240604190613-2782386b8afd // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/exp/shiny v0.0.0-20250606033433-dcc06ee1d476 // indirect
+	golang.org/x/image v0.28.0 // indirect
+	golang.org/x/mobile v0.0.0-20250606033058-a2a15c67f36f // indirect
+	golang.org/x/sys v0.33.0 // indirect
 )
