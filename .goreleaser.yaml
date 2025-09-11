@@ -1,5 +1,7 @@
 # .goreleaser.yaml
 version: 2
+project_name: gen
+
 before:
   hooks:
     - go mod tidy
@@ -12,7 +14,7 @@ builds:
       - amd64
     main: ./main.go
     ldflags:
-      - -s -w -X github.com/anibaldeboni/gen/cmd.Version=v{{.Version}}
+      - -s -w -X github.com/anibaldeboni/gen/cmd.Version={{.Version}}
 
   - id: darwin
     goos:
@@ -22,7 +24,7 @@ builds:
       - arm64
     main: ./main.go
     ldflags:
-      - -s -w -X github.com/anibaldeboni/gen/cmd.Version=v{{.Version}}
+      - -s -w -X github.com/anibaldeboni/gen/cmd.Version={{.Version}}
 
   - id: windows
     goos:
@@ -31,7 +33,7 @@ builds:
       - amd64
     main: ./main.go
     ldflags:
-      - -s -w -X github.com/anibaldeboni/gen/cmd.Version=v{{.Version}}
+      - -s -w -X github.com/anibaldeboni/gen/cmd.Version={{.Version}}
 
 archives:
   - id: darwin
@@ -41,7 +43,7 @@ archives:
     wrap_in_directory: false
     format_overrides:
       - goos: darwin
-        format: zip
+        formats: [zip]
 
   - id: linux
     name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
@@ -56,7 +58,7 @@ archives:
     wrap_in_directory: false
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [zip]
 
 checksum:
   name_template: "checksums.txt"
