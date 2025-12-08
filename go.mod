@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/google/uuid v1.6.0
 	github.com/mvrilo/go-cpf v0.0.0-20150109121854-4113d38c8d21
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	golang.design/x/clipboard v0.7.1
 )
 
