@@ -44,7 +44,7 @@ var ccGenerateFuncs = map[ccgen.CardType]func() string{
 }
 
 func listCCTypes() string {
-	var list []string
+	list := make([]string, 0, len(ccTypes))
 	for _, v := range maps.Values(ccTypes) {
 		list = append(list, v...)
 	}

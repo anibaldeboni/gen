@@ -31,7 +31,7 @@ func voterRegistrationCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			code := args[0]
 			if isUniformDigit(code) {
-				cmd.PrintErrln(Invalid(code, errors.New("Voter Registration is formed by the same digit")))
+				cmd.PrintErrln(Invalid(code, errors.New("voter registration is formed by the same digit")))
 				return
 			}
 			if err := bc.VoterRegistration.IsValid(code); err == nil {
