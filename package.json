@@ -1,10 +1,10 @@
 {
-    "name": "rapper",
+    "name": "gen",
     "version": "0.0.0-development",
     "private": true,
     "repository": {
         "type": "git",
-        "url": "https://github.com/anibaldeboni/rapper.git"
+        "url": "https://github.com/anibaldeboni/gen.git"
     },
     "devDependencies": {
         "@semantic-release/changelog": "^6.0.3",
