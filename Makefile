@@ -10,7 +10,7 @@ default: all
 all: build
 
 build: install_deps
-	@go build -o $(ARTIFACTS) -ldflags "-s -w" ./main.go
+	@go build -o $(ARTIFACTS) -ldflags "-s -w" .
 	$(info Built to $(BUILD_PATH))
 
 install: build
