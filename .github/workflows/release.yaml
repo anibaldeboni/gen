@@ -1,35 +1,108 @@
-# .github/workflows/release.yml
-name: Release build
+name: Release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (não publica)"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
-  # packages: write
-  # issues: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  build:
+  validate:
+    name: Validate
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Run tests
+        run: go run gotest.tools/gotestsum@latest --format pkgname -- -v -cover ./...
+
+      - name: Run lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
+
+  semantic-release:
+    name: Semantic Release
+    needs: validate
+    runs-on: ubuntu-latest
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
+    steps:
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: Set up Go
-        uses: actions/setup-go@v5
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          go-version: stable
-          cache: false
-      # More assembly might be required: Docker logins, GPG, etc.
-      # It all depends on your needs.
+          node-version: "lts/*"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Semantic Release
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OUTPUT_FILE=$(mktemp)
+
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            npx semantic-release --dry-run 2>&1 | tee $OUTPUT_FILE
+          else
+            npx semantic-release 2>&1 | tee $OUTPUT_FILE
+          fi
+
+          # Verifica se uma nova release foi publicada
+          if grep -q "Published release" $OUTPUT_FILE || grep -q "Created tag" $OUTPUT_FILE; then
+            echo "new_release_published=true" >> $GITHUB_OUTPUT
+            
+            # Extrai a versão da última tag
+            VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+            if [ -n "$VERSION" ]; then
+              echo "new_release_version=${VERSION#v}" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "new_release_published=false" >> $GITHUB_OUTPUT
+          fi
+
+  goreleaser:
+    name: GoReleaser
+    needs: semantic-release
+    if: needs.semantic-release.outputs.new_release_published == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
-          version: "~> v2"
+          version: latest
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
