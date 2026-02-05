@@ -1,24 +1,35 @@
-linters: #enable extra linters in addition to the default
+version: "2"
+linters:
+  enable:
+    - copyloopvar
+    - misspell
+    - nilerr
+    - perfsprint
+    - prealloc
+    - unconvert
+    - unparam
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - funlen
+        source: ^func Test
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
   enable:
     - gofmt
     - goimports
-    - misspell
-    - gosimple
-    - copyloopvar
-    - nilerr
-    - unconvert
-    - unparam
-    - prealloc
-    - perfsprint
-
-run:
-  timeout: 5m
-
-issues:
-  exclude-rules:
-    - source: "^func Test"
-      linters:
-        - funlen
-    - linters:
-        - typecheck
-      text: "has no field or method"
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
