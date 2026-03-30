@@ -1,6 +1,6 @@
 module github.com/anibaldeboni/gen
 
-go 1.24.2
+go 1.25.0
 
 require (
 	github.com/0x6flab/namegenerator v1.4.0
@@ -33,7 +33,7 @@ require (
 	github.com/potatowski/brazilcode/v2 v2.1.0
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
-	github.com/thediveo/enumflag/v2 v2.1.0
+	github.com/thediveo/enumflag/v2 v2.2.0
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96
 	golang.org/x/exp/shiny v0.0.0-20260112195511-716be5621a96 // indirect
 	golang.org/x/image v0.35.0 // indirect
